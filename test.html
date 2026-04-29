@@ -1,0 +1,11 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>Test D3 Load</title>
+<script src="https://cdn.jsdelivr.net/npm/d3@7/dist/d3.min.js"></script>
+<body>
+<script>
+  const svg = d3.select("body").append("svg").attr("width", 240).attr("height", 140);
+  svg.append("rect").attr("x", 20).attr("y", 20).attr("width", 200).attr("height", 100).attr("fill", "#4e79a7");
+  console.log("D3 version:", d3.version);
+</script>
+</body>
