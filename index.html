@@ -2,3 +2,35 @@ d3.json("data/five_neighborhoods_by_cause.json").then(data => {
    console.log(data);
    // render your D3 chart here
 });
+https://cdn.jsdelivr.net/npm/d3@7/dist/d3.min.js</script>
+<script>
+const FILE = "data/five_neighborhoods_by_cause.json";
+const CAUSES = [
+  "Non Payment","Breach","Nuisance","Illegal Use","Failure to Sign Renewal","Access Denial",
+  "Unapproved Subtenant","Owner Move In","Demolition","Capital Improvement","Substantial Rehab",
+  "Ellis Act WithDrawal","Condo Conversion","Roommate Same Unit","Other Cause","Late Payments",
+  "Lead Remediation","Development","Good Samaritan Ends"
+];
+const NEIGHBORHOODS = ["Tenderloin","Mission","South of Market","Bayview Hunters Point","Chinatown"];
+
+d3.json(FILE).then(data => {
+  // Build rows for grouped chart: [{cause, values:[{neighborhood,count}]}...]
+  const grouped = CAUSES.map(cause => ({
+    cause,
+    values: (data[cause] || []).filter(d => NEIGHBORHOODS.includes(d.neighborhood))
+  }));
+
+  // Or stacked per neighborhood: [{neighborhood, stacks:[{cause,count}]}...]
+  const stacked = NEIGHBORHOODS.map(nb => ({
+    neighborhood: nb,
+    stacks: CAUSES.map(cause => {
+      const entry = (data[cause] || []).find(d => d.neighborhood === nb);
+      return { cause, count: entry ? +entry.count : 0 };
+    })
+  }));
+
+  console.log("Grouped sample:", grouped[0]);
+  console.log("Stacked sample:", stacked[0]);
+  // …render using your existing D3 grouped/stacked bar code
+});
+</script>
